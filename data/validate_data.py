@@ -80,17 +80,20 @@ with open('Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv', 'r') as station
             stationIDs.append(int(row[1]))
     stationIDs.sort()
 
-if len(sys.argv) == 1:
-    concatenate_files_remove_duplicates(
-        ["2021-05.csv", "2021-06.csv", "2021-07.csv"])
+try:
 
-elif len(sys.argv) > 1:
-    concatenate_files_remove_duplicates(
-        [sys.argv[i] for i in range(len(sys.argv)) if i > 0])
+    if len(sys.argv) == 1:
+        concatenate_files_remove_duplicates(
+            ["2021-05.csv", "2021-06.csv", "2021-07.csv"])
 
-else:
-    print("Please enter csv filenames correctly, eg. 'python validate_data.py file1.csv file2.csv file3.csv'")
+    elif len(sys.argv) > 1:
+        concatenate_files_remove_duplicates(
+            [sys.argv[i] for i in range(len(sys.argv)) if i > 0])
+
+except: 
+    print('Wrong file names given or files are not in /data directory. Exiting..')
     sys.exit()
+
 
 # Write row to file if all fields are valid
 with open(validated_bike_data, 'w+') as result:
@@ -115,5 +118,5 @@ if os.path.exists(no_duplicates):
     os.remove(no_duplicates)
 
 print(
-    f'Total fails: {totalfails}. Total unduplicated rows: {totalrows}. Written rows: {writtenrows}')
+    f'Unduplicated rows: {totalrows}. Failed rows: {totalfails}. Written rows: {writtenrows}')
 print(f'Data validated. Created "/data/{validated_bike_data}".')
