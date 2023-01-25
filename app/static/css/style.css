@@ -1,0 +1,7 @@
+body {
+    background-color: rgb(227, 243, 235);
+}
+
+.navbar-brand, .nav-item{
+    margin-left: 5%
+}
