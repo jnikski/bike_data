@@ -91,7 +91,7 @@ try:
             [sys.argv[i] for i in range(len(sys.argv)) if i > 0])
 
 except: 
-    print('Wrong file names given or files are not in /data directory. Exiting..')
+    print('Wrong file names given or files are not in the /data directory. Exiting..')
     sys.exit()
 
 
