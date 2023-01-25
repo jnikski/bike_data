@@ -1,6 +1,5 @@
 from flask import Flask
 from app.config import DevelopmentConfig
-#from .db import get_db
 from .station import station
 from .journey import journey
 
@@ -14,9 +13,6 @@ def create_app(test_config=None):
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
-
-    # with app.app_context():
-    #     conn = get_db()
 
     app.register_blueprint(station)
     app.register_blueprint(journey)

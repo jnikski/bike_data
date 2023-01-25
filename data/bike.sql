@@ -1,3 +1,6 @@
+CREATE OR REPLACE USER 'foo' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON bike.* TO 'foo' IDENTIFIED BY 'secret';
+
 DROP DATABASE IF EXISTS bike;
 CREATE DATABASE bike;
 USE bike;
@@ -32,7 +35,7 @@ FOREIGN KEY (departure_station_id) REFERENCES station(id),
 FOREIGN KEY (return_station_id) REFERENCES station(id)
 );
 -- Insert valid absolute path /<path>/<to>/bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
-LOAD DATA LOCAL INFILE '/<path>/<to>bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
+LOAD DATA LOCAL INFILE '/<path>/<to>/bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
     INTO TABLE station 
     FIELDS 
         TERMINATED BY ','
