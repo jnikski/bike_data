@@ -1,35 +1,9 @@
 from flask import Blueprint, render_template, request
-from .db import get_db, close_db
+from .db import  get_db, close_db, get_result_set_and_count
 from flask_paginate import Pagination, get_page_args
 import mariadb
 
 station = Blueprint('station', __name__)
-
-# Gets PER_PAGE amount of bike station data and total amount of bike stations
-def get_stations(query, offset, per_page, phrase=None):
-    stations = []
-    count = 0
-    try:
-        cur = get_db()
-        if phrase == None:
-            cur.execute(query, (offset, per_page))
-            for i in cur:
-                stations.append(i)
-        else:
-            cur.execute(query, (phrase, offset, per_page))
-            for i in cur:
-                stations.append(i)
-
-        cur.execute("SELECT FOUND_ROWS()")
-        for i in cur:
-            count = i[0]
-
-    except mariadb.Error as e:
-        print(f"Error: {e}")
-
-    close_db()
-
-    return stations, count
 
 
 # List all stations
@@ -42,7 +16,7 @@ def stations():
     page, per_page, offset = get_page_args(
         page_parameter="page",  per_page_parameter="per_page")
 
-    pagination_stations, station_count = get_stations(
+    pagination_stations, station_count = get_result_set_and_count(
         offset=offset, per_page=per_page, query=query)
 
     pagination = Pagination(page=page, per_page=per_page,
@@ -90,13 +64,13 @@ def stations_search():
 
         query = """SELECT SQL_CALC_FOUND_ROWS id, nimi, namn, osoite, adress, kaupunki, kapasiteet 
                 FROM station 
-                WHERE CONCAT( id, nimi, namn, name, osoite, adress, kaupunki, stad, operaattor, kapasiteet, x, y) 
+                WHERE CONCAT( id, nimi, namn, name, osoite, adress, kaupunki, stad, operaattor, kapasiteet) 
                 REGEXP ? LIMIT ?, ?"""
 
         page, per_page, offset = get_page_args(
             page_parameter="page",  per_page_parameter="per_page")
 
-        pagination_stations, station_count = get_stations(
+        pagination_stations, station_count = get_result_set_and_count(
             query=query, offset=offset, per_page=per_page, phrase=q)
         # print(f'station_count: {station_count}')
         pagination = Pagination(page=page, per_page=per_page,

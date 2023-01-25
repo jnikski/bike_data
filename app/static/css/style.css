@@ -5,3 +5,8 @@ body {
 .navbar-brand, .nav-item{
     margin-left: 5%
 }
+
+.page-item > a{
+    background-color: lightcoral;
+    color: green;
+}
