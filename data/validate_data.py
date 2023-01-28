@@ -1,11 +1,8 @@
-import sys
-import datetime
-import csv
-import os
+import sys, datetime, csv, os
 import pandas as pd
 
-no_duplicates = 'no_duplicates.csv'
-validated_bike_data = 'validated_bike_data.csv'
+no_duplicates = "no_duplicates.csv"
+validated_bike_data = "validated_bike_data.csv"
 
 totalrows = 0
 writtenrows = 0
@@ -13,16 +10,26 @@ totalfails = 0
 
 
 def concatenate_files_remove_duplicates(files):
-    print('Concatenating files..')
+    print("Concatenating files..")
 
-    df_csv_concat = pd.concat([pd.read_csv(file)
-                               for file in files], ignore_index=True)
+    df_csv_concat = pd.concat([pd.read_csv(file) for file in files], ignore_index=True)
 
-    df = pd.DataFrame(df_csv_concat, columns=[
-        'Departure', 'Return', 'Departure station id', 'Departure station name', 'Return station id', 'Return station name', 'Covered distance (m)', 'Duration (sec.)'])
+    df = pd.DataFrame(
+        df_csv_concat,
+        columns=[
+            "Departure",
+            "Return",
+            "Departure station id",
+            "Departure station name",
+            "Return station id",
+            "Return station name",
+            "Covered distance (m)",
+            "Duration (sec.)",
+        ],
+    )
 
-    print(f'Total rows: {len(df)}')
-    print(f'Removing {len(df)-len(df.drop_duplicates())} duplicated rows..')
+    print(f"Total rows: {len(df)}")
+    print(f"Removing {len(df)-len(df.drop_duplicates())} duplicated rows..")
 
     df = df.drop_duplicates()
 
@@ -71,7 +78,7 @@ def validate_fields(row):
 
 
 stationIDs = []
-with open('Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv', 'r') as stations_csv:
+with open("Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv", "r") as stations_csv:
     reader = csv.reader(stations_csv)
     next(reader, None)
 
@@ -83,27 +90,25 @@ with open('Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv', 'r') as station
 try:
 
     if len(sys.argv) == 1:
-        concatenate_files_remove_duplicates(
-            ["2021-05.csv", "2021-06.csv", "2021-07.csv"])
+        concatenate_files_remove_duplicates(["2021-05.csv", "2021-06.csv", "2021-07.csv"])
 
     elif len(sys.argv) > 1:
-        concatenate_files_remove_duplicates(
-            [sys.argv[i] for i in range(len(sys.argv)) if i > 0])
+        concatenate_files_remove_duplicates([sys.argv[i] for i in range(len(sys.argv)) if i > 0])
 
-except: 
-    print('Wrong file names given or files are not in the /data directory. Exiting..')
+except:
+    print("Wrong file names given or files are not in the /data directory. Exiting..")
     sys.exit()
 
 
 # Write row to file if all fields are valid
-with open(validated_bike_data, 'w+') as result:
-    writer = csv.writer(result, delimiter=',')
+with open(validated_bike_data, "w+") as result:
+    writer = csv.writer(result, delimiter=",")
 
-    with open(no_duplicates, 'r') as csv_file:
+    with open(no_duplicates, "r") as csv_file:
         reader = csv.reader(csv_file)
         next(reader, None)
 
-        print('Validating csv fields..')
+        print("Validating csv fields..")
         for row in reader:
             totalrows += 1
 
@@ -117,6 +122,5 @@ with open(validated_bike_data, 'w+') as result:
 if os.path.exists(no_duplicates):
     os.remove(no_duplicates)
 
-print(
-    f'Unduplicated rows: {totalrows}. Failed rows: {totalfails}. Written rows: {writtenrows}')
+print(f"Unduplicated rows: {totalrows}. Failed rows: {totalfails}. Written rows: {writtenrows}")
 print(f'Data validated. Created "/data/{validated_bike_data}".')

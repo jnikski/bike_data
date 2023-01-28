@@ -1,4 +1,4 @@
-# BIKE WEB APP
+# HELSINKI CITY BIKE APP
 
 - Application for viewing bike data. Python, Flask, MariaDB.
 
@@ -22,5 +22,20 @@
 
 ### Flask app
 
-<!-- Set environment variable for Flask in the shell: `export FLASK_APP=run.py`. Optionally `export FLASK_DEBUG=1` to run app in development mode. -->
-Run app: `flask run`. With debugging enabled: `flask --debug run` The project is served at `http://localhost:5000`
+Run app: `flask run`. With debugging enabled: `flask --debug run`.
+
+#### Creating stations/journeys
+
+`/station/create` and `/journey/create` endpoints take JSON object that must be sent with POST request. Objects must contain the following fields:
+
+##### Station
+
+1. `nimi`, `namn`, `name`, `osoite`, `adress`, `stad`, `operaattor`: String
+2. `kapasiteet`, `x`, `y`: Number
+
+##### Journey
+
+1. `departure_time`, `return_time`: Datetime
+2. `departure_station_id`, `return_station_id`: Integer
+3. `departure_station`, `return_station`: String
+4. `covered_distance`, `duration`: Number

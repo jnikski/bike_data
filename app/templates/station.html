@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Station details{% endblock %}
 {% block main %}
 
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Bike Stations</h1>
+            <h2>Bike Stations</h2>
             <h3 class="text-muted"> {{ name }}</h3>
+            <h6 class="text-muted"> {{ address }} {{kaupunki}}</h6>
             <hr>
             <table class="table">
-                {% if name and address and departures and returns %}
                 <thead>
                     <tr>
-                        <!-- <th scope="col">Name</th> -->
-                        <th scope="col">Address</th>
+                        <!-- <th scope="col">Address</th> -->
                         <th scope="col">Departures</th>
                         <th scope="col">AVG distance of departures</th>
                         <th scope="col">Returns</th>
@@ -23,15 +22,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <!-- <td>{{ name }}</td> -->
-                        <td>{{ address }}</td>
+                        <!-- <td>{{ address }}</td> -->
                         <td>{{ departures }}</td>
                         <td>{{ dep_avg_distance }} km</td>
                         <td>{{ returns }}</td>
                         <td>{{ ret_avg_distance }} km</td>
                     </tr>
                 </tbody>
-                {% endif %}
                 </tbody>
             </table>
         </div>
