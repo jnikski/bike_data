@@ -4,7 +4,7 @@ from flask_paginate import Pagination, get_page_args
 import mariadb
 
 journey = Blueprint("journey", __name__)
-
+searchcontext = "journeys"
 
 @journey.route("/journeys")
 def journeys():
@@ -34,6 +34,7 @@ def journeys():
         page=page,
         per_page=per_page,
         pagination=pagination,
+        searchcontext=searchcontext
     )
 
 
@@ -69,6 +70,7 @@ def journeys_search():
             page=page,
             per_page=per_page,
             pagination=pagination,
+            searchcontext=searchcontext
         )
 
 

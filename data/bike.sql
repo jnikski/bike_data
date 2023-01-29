@@ -34,8 +34,8 @@ duration DECIMAL NOT NULL,
 FOREIGN KEY (departure_station_id) REFERENCES station(id),
 FOREIGN KEY (return_station_id) REFERENCES station(id)
 );
--- Insert valid absolute path /<path>/<to>/bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
-LOAD DATA LOCAL INFILE '/home/js/bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
+-- Insert valid absolute path
+LOAD DATA LOCAL INFILE '/<path>/<to>/bike_data/data/Helsingin_ja_Espoon_kaupunkipyöräasemat_avoin.csv' 
     INTO TABLE station 
     FIELDS 
         TERMINATED BY ','
@@ -43,8 +43,8 @@ LOAD DATA LOCAL INFILE '/home/js/bike_data/data/Helsingin_ja_Espoon_kaupunkipyö
         LINES TERMINATED BY '\n'
         IGNORE 1 ROWS (FID,ID,Nimi,Namn,Name,Osoite,Adress,Kaupunki,Stad,Operaattor,Kapasiteet,x,y);
 
--- Insert valid absolute path: /<path>/<to>/bike_data/data/validated_bike_data.csv
-LOAD DATA LOCAL INFILE '/home/js/bike_data/data/validated_bike_data.csv' 
+-- Insert valid absolute path
+LOAD DATA LOCAL INFILE '/<path>/<to>/bike_data/data/validated_bike_data.csv' 
     INTO TABLE journey 
     FIELDS 
         TERMINATED BY ','

@@ -2,11 +2,19 @@ body {
     background-color: rgb(227, 243, 235);
 }
 
-.navbar-brand, .nav-item{
+.navbar-brand,
+.nav-item {
     margin-left: 5%
 }
 
-.page-item > a{
-    background-color: lightcoral;
-    color: green;
+.page-item>a {
+    background-color: #f08080;
+    color: #2638a0;
+}
+
+nav>form {
+    margin-right: 5%;
+}
+.page-link{
+    font-weight: bolder;
 }

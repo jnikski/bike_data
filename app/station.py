@@ -4,7 +4,7 @@ from flask_paginate import Pagination, get_page_args
 import mariadb
 
 station = Blueprint("station", __name__)
-
+searchcontext = "stations"
 
 # List all stations
 @station.route("/", methods=["GET"])
@@ -29,6 +29,7 @@ def stations():
         page=page,
         per_page=per_page,
         pagination=pagination,
+        searchcontext=searchcontext
     )
 
 
@@ -81,6 +82,7 @@ def station_details(station_id):
         returns=returns,
         dep_avg_distance=dep_avg_distance,
         ret_avg_distance=ret_avg_distance,
+        searchcontext = searchcontext
     )
 
 
@@ -111,6 +113,7 @@ def stations_search():
             page=page,
             per_page=per_page,
             pagination=pagination,
+            searchcontext=searchcontext
         )
 
 
