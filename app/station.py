@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, make_response, jsonify, abort
+from flask import Blueprint, render_template, send_file, request, make_response, jsonify, abort
 from .db import get_db, close_db, get_result_set_and_count
 from flask_paginate import Pagination, get_page_args
 import mariadb
+import folium
 
 station = Blueprint("station", __name__)
 searchcontext = "stations"
@@ -29,18 +30,21 @@ def stations():
         page=page,
         per_page=per_page,
         pagination=pagination,
-        searchcontext=searchcontext
+        searchcontext=searchcontext,
     )
+
+
+# Send map to the template
+@station.route("/map.html")
+def show_map():
+    return send_file("templates/map.html")
 
 
 # Single station view
 @station.route("/station/<station_id>")
 def station_details(station_id):
-    try:
-        cur = get_db().cursor()
 
-        cur.execute(
-            """SELECT
+    query = """SELECT
                     nimi AS name,
                     osoite AS address,
                     kaupunki,
@@ -53,23 +57,38 @@ def station_details(station_id):
                     
                     IFNULL((SELECT ROUND(avg(j.covered_distance / 1000 ), 3) 
                     FROM station s, journey j
-                    WHERE s.id =? AND j.return_station_id = s.id), 0) AS ret_avg_distance
+                    WHERE s.id =? AND j.return_station_id = s.id), 0) AS ret_avg_distance,
+                    x,
+                    y
+
                     FROM station s, journey j
-                    WHERE s.id =?;""",
-            (
-                station_id,
-                station_id,
-                station_id,
-            ),
-        )
+                    WHERE s.id =?;"""
+
+    try:
+        cur = get_db().cursor()
+        cur.execute(query, (station_id, station_id, station_id))
 
     except mariadb.Error as e:
         print(f"Error: {e}")
         close_db()
         return abort(400, "Query didn't succeed")
 
-    for a, b, c, d, e, f, g in cur:
-        name, address, kaupunki, departures, returns, dep_avg_distance, ret_avg_distance = a, b, c, d, e, f, g
+    for a, b, c, d, e, f, g, x, y in cur:
+        name, address, kaupunki, departures, returns, dep_avg_distance, ret_avg_distance, x, y = (
+            a,
+            b,
+            c,
+            d,
+            e,
+            f,
+            g,
+            x,
+            y,
+        )
+
+    map = folium.Map(location=[y, x], zoom_start=17)
+    folium.Marker([y, x], popup=f"<i>{address}</i>", tooltip=name).add_to(map)
+    map.save("app/templates/map.html")
 
     close_db()
 
@@ -77,12 +96,12 @@ def station_details(station_id):
         "station.html",
         name=name,
         address=address,
-        kaupunki = kaupunki,
+        kaupunki=kaupunki,
         departures=departures,
         returns=returns,
         dep_avg_distance=dep_avg_distance,
         ret_avg_distance=ret_avg_distance,
-        searchcontext = searchcontext
+        searchcontext=searchcontext,
     )
 
 
@@ -113,7 +132,7 @@ def stations_search():
             page=page,
             per_page=per_page,
             pagination=pagination,
-            searchcontext=searchcontext
+            searchcontext=searchcontext,
         )
 
 

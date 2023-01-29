@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Stations{% endblock %}
 {% block main %}
 
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Bike Stations</h2>
+            <h2>Stations</h2>
             <hr>
             <div class="container">
                 <table class="table table-hover">
@@ -45,36 +45,3 @@
     </div>
 </div>
 {% endblock %}
-
-<!-- {% block script %}
-
-<script>
-
-    function search_stations() {
-        console.log('inside function search stations');
-        let phrase = document.getElementById('searchPhrase');
-
-        fetch(`${window.origin}/stations/search`, {
-            method: "POST",
-            body: JSON.stringify(phrase.value),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
-            })
-        })
-        .then((response) =>{
-            if (response.status !== 200) {
-                    console.log(`Response status wasn't 200: ${response.status}`);
-                    return;
-                }
-
-                response.json().then((data) =>{
-                    console.log(data);
-                })
-        })
-        
-    }
-
-</script>
-
-{% endblock %} -->
