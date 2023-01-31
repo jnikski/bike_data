@@ -6,6 +6,7 @@ import mariadb
 journey = Blueprint("journey", __name__)
 searchcontext = "journeys"
 
+
 @journey.route("/journeys")
 def journeys():
 
@@ -34,7 +35,7 @@ def journeys():
         page=page,
         per_page=per_page,
         pagination=pagination,
-        searchcontext=searchcontext
+        searchcontext=searchcontext,
     )
 
 
@@ -70,7 +71,7 @@ def journeys_search():
             page=page,
             per_page=per_page,
             pagination=pagination,
-            searchcontext=searchcontext
+            searchcontext=searchcontext,
         )
 
 

@@ -8,3 +8,5 @@ env/
 *.csv
 
 map.html
+
+db/

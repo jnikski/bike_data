@@ -1,0 +1,19 @@
+services:
+  db:
+    build: ./data/
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mariadb/data
+    environment:
+      - MARIADB_ROOT_PASSWORD=bar
+  web:
+    build: .
+    ports:
+      - "80:5000"
+    environment:
+      - HOST=bike_data-db-1
+    depends_on:
+      - db
+volumes:
+  db_data:

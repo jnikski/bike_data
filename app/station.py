@@ -71,7 +71,7 @@ def station_details(station_id):
     except mariadb.Error as e:
         print(f"Error: {e}")
         close_db()
-        return abort(400, "Query didn't succeed")
+        return abort(500, f"Query didn't succeed.")
 
     for a, b, c, d, e, f, g, x, y in cur:
         name, address, kaupunki, departures, returns, dep_avg_distance, ret_avg_distance, x, y = (
@@ -121,7 +121,7 @@ def stations_search():
         pagination_stations, station_count = get_result_set_and_count(
             query=query, offset=offset, per_page=per_page, phrase=q
         )
-        # print(f'station_count: {station_count}')
+
         pagination = Pagination(
             page=page, per_page=per_page, total=station_count, css_framework="bootstrap5"
         )

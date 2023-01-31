@@ -1,8 +1,9 @@
 import mariadb
 from flask import g, abort
+import os
 
 dbconfig = {
-    "host": "127.0.0.1",
+    "host": os.environ.get('HOST') or "127.0.0.1",
     "port": 3306,
     "user": "foo",
     "password": "secret",
@@ -47,7 +48,7 @@ def get_result_set_and_count(query, offset, per_page, phrase=None):
 
     except mariadb.Error as e:
         print(f"Error: {e}")
-        return abort(400, "Query didn't succeed")
+        return abort(500, "Query didn't succeed. Try a little later.")
 
     close_db()
     return journeys, count

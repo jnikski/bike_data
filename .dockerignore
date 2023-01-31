@@ -1,0 +1,10 @@
+.git
+.gitignore
+.dockerignore
+__pycache__/
+env
+map.html
+*.sh
+docker-compose.yml
+Dockerfile
+README.md
