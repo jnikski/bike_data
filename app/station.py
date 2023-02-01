@@ -11,8 +11,8 @@ searchcontext = "stations"
 @station.route("/", methods=["GET"])
 def stations():
 
-    query = """SELECT SQL_CALC_FOUND_ROWS id, nimi, namn, osoite, \
-                   adress, kaupunki, kapasiteet FROM station LIMIT ?, ?"""
+    query = """SELECT SQL_CALC_FOUND_ROWS id, nimi, osoite, \
+                   IF(kaupunki = ' ', 'Helsinki', kaupunki), kapasiteet FROM station LIMIT ?, ?"""
 
     page, per_page, offset = get_page_args(page_parameter="page", per_page_parameter="per_page")
 
@@ -47,7 +47,7 @@ def station_details(station_id):
     query = """SELECT
                     nimi AS name,
                     osoite AS address,
-                    kaupunki,
+                    if(kaupunki = ' ', 'Helsinki', kaupunki),
                     SUM(j.departure_station_id = s.id) AS departure_count,
                     SUM(j.return_station_id = s.id) AS return_count,
 
@@ -111,9 +111,9 @@ def stations_search():
     if request.args:
         q = request.args["q"]
 
-        query = """SELECT SQL_CALC_FOUND_ROWS id, nimi, namn, osoite, adress, kaupunki, kapasiteet 
+        query = """SELECT SQL_CALC_FOUND_ROWS id, nimi, namn, osoite, adress, if(kaupunki = ' ', 'Helsinki', kaupunki), kapasiteet 
                 FROM station 
-                WHERE CONCAT( id, nimi, namn, name, osoite, adress, kaupunki, stad, operaattor, kapasiteet) 
+                WHERE CONCAT( id, nimi, namn, name, osoite, adress, if(kaupunki = ' ', 'Helsinki', kaupunki), stad, operaattor, kapasiteet) 
                 REGEXP ? LIMIT ?, ?"""
 
         page, per_page, offset = get_page_args(page_parameter="page", per_page_parameter="per_page")

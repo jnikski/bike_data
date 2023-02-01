@@ -7,14 +7,12 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <!-- <h2>Bike Stations</h2> -->
             <h3 class="text-muted"> {{ name }}</h3>
-            <h6 class="text-muted"> {{ address }} {{kaupunki}}</h6>
+            <h6 class="text-muted"> {{ address }}, {{kaupunki}}</h6>
             <hr>
             <table class="table">
                 <thead>
                     <tr>
-                        <!-- <th scope="col">Address</th> -->
                         <th scope="col">Departures</th>
                         <th scope="col">AVG distance of departures</th>
                         <th scope="col">Returns</th>
@@ -23,7 +21,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <!-- <td>{{ address }}</td> -->
                         <td>{{ departures }}</td>
                         <td>{{ dep_avg_distance }} km</td>
                         <td>{{ returns }}</td>
