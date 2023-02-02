@@ -1,8 +1,25 @@
 # HELSINKI CITY BIKE APP
 
+Dev Academy pre-assignment.
+
 ---
 
-- Application for viewing bike data. Python, Flask, MariaDB.
+- Application for creating and viewing bike station data. Python, Flask, MariaDB.
+
+## Description
+
+From the features proposed in [functional requirements](https://github.com/solita/dev-academy-2023-exercise#user-content-functional-requirements), all recommended features were implemented. From additional requirements, the following were implemented:
+
+- Journey
+  - Pagination
+  - Searching
+
+- Station
+  - Pagination
+  - Searching
+  - Location on map
+  - The average distance of a journey starting from the station
+  - The average distance of a journey ending at the station
 
 ## Prerequisites
 
@@ -13,26 +30,26 @@
 - Install necessary packages `sudo apt install python3-dev python3-venv libmariadb-dev -y`
 - Create virtualenv in project root directory `python3 -m venv env`
 - Activate virtual environment `source env/bin/activate`
-- Install dependencies within the virtual environment `pip install -r requirements.txt`
+- Install dependencies within the virtual environment `pip install -r requirements.txt`.
 
 ### Data validation
 
-- Download and validate data by running `./validate.sh`. Optionally move project relevant csv files to the data directory and in /data, run `python validate_data.py` within the virtual environment.
+- Download and validate data by running `./validate.sh`. Optionally move project relevant csv files to the data directory and in `/data`, run `python validate_data.py` within the virtual environment.
 As a result, `/data/validated_bike_data.csv` is created.
 
 ### Dockerizing
 
-[Docker](https://docs.docker.com/engine/install/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/linux/) must be installed and data validation done.
+[Docker](https://docs.docker.com/engine/install/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/linux/) must be installed and data validation done for the next step.
 
 Depending on the Docker Compose version, command `docker-compose up -d` or `docker compose up -d` will launch containerized project. Note: It takes about 25 seconds for the app to get database connection after the command has finished.
 
 ### Installing without containers
 
-- Activate virtual environment `source env/bin/activate`.
-- Validate data if not done yet.
-- Install mariadb database `sudo apt install mariadb-server`. In WSL mariadb service is started this way `sudo service mariadb start`.
-- Set valid absolute csv filepaths for the two `LOAD DATA LOCAL INFILE` commands in the `data/bike.sql`.
-- import data to mariadb `sudo mariadb < /<path>/<to>/bike_db.sql`.
+- Activate virtual environment `source env/bin/activate`
+- Validate data if not done yet
+- Install mariadb database `sudo apt install mariadb-server`. In WSL mariadb service is started this way `sudo service mariadb start`
+- Set valid absolute csv filepaths for the two `LOAD DATA LOCAL INFILE` commands in the `data/bike.sql`
+- import data to mariadb `sudo mariadb < /<path>/<to>/bike_db.sql`
 - Run app: `flask run`. With debugging enabled: `flask --debug run`.
 
 ## Creating stations/journeys
@@ -41,12 +58,12 @@ Depending on the Docker Compose version, command `docker-compose up -d` or `dock
 
 ### Station
 
-1. `nimi`, `namn`, `name`, `osoite`, `adress`, `stad`, `operaattor`: String.
+1. `nimi`, `namn`, `name`, `osoite`, `adress`, `stad`, `operaattor`: String
 2. `kapasiteet`, `x`, `y`: Number.
 
 ### Journey
 
-1. `departure_time`, `return_time`: Datetime.
-2. `departure_station_id`, `return_station_id`: Integer.
-3. `departure_station`, `return_station`: String.
+1. `departure_time`, `return_time`: Datetime
+2. `departure_station_id`, `return_station_id`: Integer
+3. `departure_station`, `return_station`: String
 4. `covered_distance`, `duration`: Number.

@@ -3,7 +3,7 @@ from flask import g, abort
 import os
 
 dbconfig = {
-    "host": os.environ.get('HOST') or "127.0.0.1",
+    "host": os.environ.get("HOST") or "127.0.0.1",
     "port": 3306,
     "user": "foo",
     "password": "secret",
